@@ -13,3 +13,5 @@ class BookDocument(Document):
     class Django:
         model = Book
         fields = ["title", "author", "description"]
+
+

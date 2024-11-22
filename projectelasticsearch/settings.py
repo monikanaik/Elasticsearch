@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "django_elasticsearch_dsl",
     "app",
+    "api_search",
 ]
 
 MIDDLEWARE = [
@@ -129,6 +130,39 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR/"staticfiles"
+# No selected code was provided, so I will add a basic logging configuration to the settings file.
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s"
+        },
+        "simple": {
+            "format": "%(levelname)s %(message)s"
+        }
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "simple"
+        },
+        "file": {
+            "class": "logging.FileHandler",
+           "filename": str(BASE_DIR/"django.log"),  # Ensure path is a string
+            "formatter": "verbose"
+        }
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console", "file"],
+            "level": "INFO",
+            "propagate": True
+        }
+    }
+}
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
