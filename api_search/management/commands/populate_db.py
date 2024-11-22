@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
 
-from app.models import Category, Article
+from api_search.models import Category, Article
 
 
 class Command(BaseCommand):

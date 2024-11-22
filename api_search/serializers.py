@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from app.models import Article, Category
+from .models import Article, Category
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -23,4 +23,15 @@ class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = "__all__"
+
+
+    def create(self, validated_data):
+        author_data = validated_data.pop('author')
+        categories_data = validated_data.pop('categories')
+
+        author = User.objects.create(**author_data)
+        categories = Category.objects.filter(name__in=[category_data['name'] for category_data in categories_data])
         
+        article = Article.objects.create(author=author, **validated_data)
+        article.categories.set(categories)
+        return article
