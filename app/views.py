@@ -10,6 +10,8 @@ def index(request):
     if q:
         query = MultiMatch(query=q, fields=["title", "description"],fuzziness="AUTO")
         response = BookDocument.search().query(query).execute()
+        s = BookDocument.search().query("match", title=q)[0:5]
+        print(s.to_queryset())
         context["books"] = response
     return render(request, "app/index.html", context)
 
